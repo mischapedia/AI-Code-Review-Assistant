@@ -1,6 +1,7 @@
 import click
 from src.reviewer import run_review
 from src.config_loader import get_config
+from src.logger import setup_logger
 
 @click.group()
 def cli():
@@ -17,6 +18,8 @@ def review(project_id, mr_id, dry_run):
     """
     Startet ein Code-Review für einen bestimmten Merge Request.
     """
+    config = get_config()
+    setup_logger(log_level=config.log_level)
     run_review(project_id, mr_id, dry_run)
 
 @cli.command()
@@ -30,6 +33,7 @@ def check_config():
         click.echo(f"GitLab URL: {config.gitlab_url}")
         click.echo(f"LLM Provider: {config.llm_provider}")
         click.echo(f"LLM Model: {config.llm_model}")
+        click.echo(f"Log Level: {config.log_level}")
     except Exception as e:
         click.secho(f"Konfigurationsfehler: {e}", fg="red")
 

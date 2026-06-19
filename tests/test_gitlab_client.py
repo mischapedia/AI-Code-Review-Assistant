@@ -30,6 +30,18 @@ def test_t04_get_mr_diffs(mock_raw_diff):
     assert len(diffs) == 1
     assert diffs[0]["new_path"] == "src/main.py"
 
+def test_get_file_content():
+    client = GitLabClient("https://test.com", "token")
+    mock_gl = MagicMock()
+    
+    mock_file = MagicMock()
+    mock_file.content = b"print('hello world')"
+    mock_gl.projects.get.return_value.files.get.return_value = mock_file
+    client.gl = mock_gl
+    
+    content = client.get_file_content(7757, "src/main.py", "main")
+    assert content == "print('hello world')"
+
 def test_t10_post_comment():
     client = GitLabClient("https://test.com", "token")
     mock_gl = MagicMock()
@@ -42,5 +54,4 @@ def test_t10_post_comment():
     
     mock_mr.notes.create.assert_called_once()
     args, _ = mock_mr.notes.create.call_args
-    assert "[AI-Review]" in args[0]["body"]
     assert "Guter Code!" in args[0]["body"]

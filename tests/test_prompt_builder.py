@@ -23,3 +23,4 @@ def test_t06_t07_prompt_creation(mock_mr_metadata):
     assert mock_mr_metadata["title"] in user_prompt
     assert mock_mr_metadata["author"] in user_prompt
     assert diff_text in user_prompt
+    assert "Kontext der betroffenen Dateien" in user_prompt

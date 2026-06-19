@@ -1,4 +1,5 @@
 import gitlab
+import base64
 
 class GitLabClient:
     def __init__(self, url: str, token: str):
@@ -18,6 +19,11 @@ class GitLabClient:
         mr = project.mergerequests.get(mr_iid)
         return mr.changes()['changes']
     
+    def get_file_content(self, project_id: str | int, file_path: str, ref: str) -> str:
+        project = self.gl.projects.get(project_id)
+        file = project.files.get(file_path=file_path, ref=ref)
+        return base64.b64decode(file.content).decode('utf-8')
+
     def post_comment(self, project_id: str | int, mr_iid: int, comment: str):
         project = self.gl.projects.get(project_id)
         mr = project.mergerequests.get(mr_iid)

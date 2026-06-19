@@ -16,6 +16,9 @@ class Config:
     llm_temperature: float
     openrouter_api_key: str
     use_litellm: bool
+    log_level: str
+    max_file_size: int
+    context_budget: int
 
 def get_config() -> Config:
     """
@@ -37,4 +40,7 @@ def get_config() -> Config:
         llm_temperature=float(os.getenv("LLM_TEMPERATURE", "0.1")),
         openrouter_api_key=os.getenv("OPENROUTER_API_KEY", ""),
         use_litellm = os.getenv("USE_LITELLM", "false").lower() in ("true", "1", "yes"),
+        log_level=os.getenv("LOG_LEVEL", "INFO").upper(),
+        max_file_size=int(os.getenv("MAX_FILE_SIZE", "10000")),
+        context_budget=int(os.getenv("CONTEXT_BUDGET", "200000")),
     )

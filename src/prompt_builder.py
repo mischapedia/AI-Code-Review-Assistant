@@ -18,7 +18,7 @@ Sei einfach und präzise! Wenn der Code gut ist, erwähne das kurz."""
     user_prompt = """Merge Request Titel: {title}
 Autor: {author}
 
-Hier sind die Änderungen (Diffs):
+Hier ist der Kontext der betroffenen Dateien (Vollständiger Inhalt und Diffs):
 {diff_text}
 
 Bitte gib mir dein Review:"""
